@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
 import './ProductCard.css';
-import { useCart } from '../../Context/CartContext';
+import { useCart } from '../../context/CartContext';
 import fallbackImage from '../../assets/images/product1.jpg'; // Import fallback image
 
 const ProductCard = ({ 
