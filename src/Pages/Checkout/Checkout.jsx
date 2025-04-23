@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import { useToast } from '../../context/ToastContext';
+import { useLanguage } from '../../context/LanguageContext';
 import backIcon from '../../assets/images/back-icon.svg';
 import './Checkout.css';
 
 const Checkout = () => {
   const { cartItems, getTotalPrice, clearCart } = useCart();
   const { showSuccessToast, showErrorToast } = useToast();
+  const { translate } = useLanguage();
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -86,7 +88,7 @@ const Checkout = () => {
     e.preventDefault();
     
     if (cartItems.length === 0) {
-      showErrorToast('Savatingiz bo\'sh');
+      showErrorToast(translate('checkout.cartEmpty'));
       return;
     }
     
@@ -121,11 +123,11 @@ const Checkout = () => {
     return (
       <div className="checkout-success">
         <div className="success-icon">✅</div>
-        <h2>BUYURTMA MUVAFFAQIYATLI YUBORILDI!</h2>
-        <p>Buyurtmangiz uchun rahmat, {formData.fullName}! 🙏</p>
-        <p>Tez orada {formData.phoneNumber} raqamiga qo'ng'iroq qilib tasdiqlaymiz. 📞</p>
+        <h2>{translate('checkout.orderSuccess')}</h2>
+        <p>{translate('checkout.thankYou')}, {formData.fullName}! 🙏</p>
+        <p>{translate('checkout.willCall')} 📞</p>
         <Link to="/" className="back-to-shopping">
-          XARID DAVOM ETTIRISH 🛒
+          {translate('checkout.continueShopping')} 🛒
         </Link>
       </div>
     );
@@ -137,17 +139,17 @@ const Checkout = () => {
         <div className="checkout-header">
           <Link to="/" className="back-arrow">
             <img src={backIcon} alt="Back" className="back-icon" />
-            <span>Asosiy sahifa</span>
+            <span>{translate('checkout.mainPage')}</span>
           </Link>
-          <h1>BUYURTMA BERISH 📦</h1>
+          <h1>{translate('checkout.orderNow')} 📦</h1>
         </div>
 
         <div className="checkout-content">
           <div className="checkout-form-container">
-            <h2>YETKAZIB BERISH MA'LUMOTLARI 🚚</h2>
+            <h2>{translate('checkout.deliveryInfo')} 🚚</h2>
             <form onSubmit={handleSubmit} className="checkout-form">
               <div className="form-group">
-                <label htmlFor="fullName">To'liq Ismingiz 👤</label>
+                <label htmlFor="fullName">{translate('checkout.fullName')} 👤</label>
                 <input
                   type="text"
                   id="fullName"
@@ -155,12 +157,12 @@ const Checkout = () => {
                   value={formData.fullName}
                   onChange={handleChange}
                   required
-                  placeholder="To'liq ismingizni kiriting"
+                  placeholder={translate('checkout.enterFullName')}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="phoneNumber">Telefon Raqam 📞</label>
+                <label htmlFor="phoneNumber">{translate('checkout.phoneNumber')} 📞</label>
                 <input
                   type="tel"
                   id="phoneNumber"
@@ -168,12 +170,12 @@ const Checkout = () => {
                   value={formData.phoneNumber}
                   onChange={handleChange}
                   required
-                  placeholder="Telefon raqamingizni kiriting"
+                  placeholder={translate('checkout.enterPhone')}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="city">Shahar 🏙️</label>
+                <label htmlFor="city">{translate('checkout.city')} 🏙️</label>
                 <input
                   type="text"
                   id="city"
@@ -181,19 +183,19 @@ const Checkout = () => {
                   value={formData.city}
                   onChange={handleChange}
                   required
-                  placeholder="Shaharingizni kiriting"
+                  placeholder={translate('checkout.enterCity')}
                 />
               </div>
 
               <div className="form-group">
-                <label htmlFor="additionalInfo">Qo'shimcha Ma'lumot (Ixtiyoriy) 📝</label>
+                <label htmlFor="additionalInfo">{translate('checkout.additionalInfo')} 📝</label>
                 <textarea
                   id="additionalInfo"
                   name="additionalInfo"
                   value={formData.additionalInfo}
                   onChange={handleChange}
                   rows="4"
-                  placeholder="Buyurtmangiz haqida qo'shimcha ma'lumot"
+                  placeholder={translate('checkout.enterAdditionalInfo')}
                 ></textarea>
               </div>
 
@@ -202,16 +204,16 @@ const Checkout = () => {
                 className="place-order-btn" 
                 disabled={isSubmitting}
               >
-                {isSubmitting ? 'YUBORILMOQDA...' : 'BUYURTMA BERISH ✅'}
+                {isSubmitting ? translate('checkout.submittingOrder') : `${translate('checkout.submitOrder')} ✅`}
               </button>
             </form>
           </div>
 
           <div className="order-summary">
-            <h2>BUYURTMA TAFSILOTLARI 📋</h2>
+            <h2>{translate('checkout.orderDetails')} 📋</h2>
             
             {cartItems.length === 0 ? (
-              <p className="empty-cart-message">Savatingiz bo'sh</p>
+              <p className="empty-cart-message">{translate('checkout.cartEmpty')}</p>
             ) : (
               <>
                 <div className="order-items">
@@ -222,7 +224,7 @@ const Checkout = () => {
                         <h3 className="item-title">{item.title}</h3>
                         <div className="item-price-qty">
                           <span className="item-price">{item.price.toLocaleString()} so'm</span>
-                          <span className="item-qty">Soni: {item.quantity}</span>
+                          <span className="item-qty">{translate('checkout.quantity')}: {item.quantity}</span>
                         </div>
                       </div>
                     </div>
@@ -231,15 +233,15 @@ const Checkout = () => {
                 
                 <div className="order-totals">
                   <div className="total-line">
-                    <span>Jami</span>
+                    <span>{translate('checkout.total')}</span>
                     <span>{getTotalPrice().toLocaleString()} so'm</span>
                   </div>
                   <div className="total-line">
-                    <span>Yetkazib berish</span>
-                    <span>BEPUL</span>
+                    <span>{translate('checkout.delivery')}</span>
+                    <span>{translate('checkout.free')}</span>
                   </div>
                   <div className="total-line final-total">
-                    <span>Umumiy summa</span>
+                    <span>{translate('checkout.totalAmount')}</span>
                     <span>{getTotalPrice().toLocaleString()} so'm</span>
                   </div>
                 </div>

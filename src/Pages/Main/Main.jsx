@@ -1,19 +1,48 @@
-import React from 'react'
-import Products from './Products/Products'
-import HeroSection from '../../Components/HeroSection/HeroSection'
-import Footer from '../../Components/Footer/Footer'
-import AboutSection from '../../Components/AboutSection/AboutSection'
-import ContactSection from '../../Components/ContactSection/ContactSection'
+import React, { Suspense, lazy } from 'react';
+import ErrorBoundary from '../../Components/ErrorBoundary';
+import './Main.css';
+
+// Lazy load components
+const HeroSection = lazy(() => import('../../Components/HeroSection/HeroSection'));
+const Products = lazy(() => import('./Products/Products'));
+const ContactSection = lazy(() => import('../../Components/ContactSection/ContactSection'));
+const Footer = lazy(() => import('../../Components/Footer/Footer'));
+
+// Loading component
+const SectionLoader = () => (
+  <div className="section-loading">
+    <div className="loader"></div>
+  </div>
+);
+
 const Main = () => {
   return (
     <main>
-      <HeroSection />
-      <Products />
-      <AboutSection />
-      <ContactSection />
-      <Footer />
-    </main>
-  )
-}
+      <ErrorBoundary>
+        <Suspense fallback={<SectionLoader />}>
+          <HeroSection />
+        </Suspense>
+      </ErrorBoundary>
 
-export default Main
+      <ErrorBoundary>
+        <Suspense fallback={<SectionLoader />}>
+          <Products />
+        </Suspense>
+      </ErrorBoundary>
+
+      <ErrorBoundary>
+        <Suspense fallback={<SectionLoader />}>
+          <ContactSection />
+        </Suspense>
+      </ErrorBoundary>
+
+      <ErrorBoundary>
+        <Suspense fallback={<SectionLoader />}>
+          <Footer />
+        </Suspense>
+      </ErrorBoundary>
+    </main>
+  );
+};
+
+export default Main;

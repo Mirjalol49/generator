@@ -7,46 +7,58 @@
   color: #000;
   background-color: white;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transform: translateZ(0); /* Force hardware acceleration */
+  will-change: transform; /* Optimize for animations */
+  transition: transform 0.2s ease; /* Smooth transition for any transform changes */
+  backface-visibility: hidden; /* Prevent flickering in some browsers */
+  -webkit-font-smoothing: subpixel-antialiased; /* Improve text rendering */
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 clamp(0.5rem, 3vw, 1rem);
+  width: 100%;
 }
 
 .header-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 0;
+  padding: clamp(8px, 2vw, 15px) 0;
 }
 
 .header-logo {
   display: block;
+  flex-shrink: 0;
 }
 
 .header-logo img {
-  max-width: 150px;
+  max-width: clamp(100px, 15vw, 150px);
   height: auto;
+  transition: max-width 0.3s ease;
 }
 
 .header-nav {
   display: flex;
-  align-items: center;
-  gap: 40px;
+  gap: clamp(10px, 2vw, 30px);
+  margin-left: auto;
+  margin-right: clamp(10px, 2vw, 30px);
+  transition: all 0.3s ease;
 }
 
 .header-nav a {
   color: #000;
   text-decoration: none;
-  font-weight: 600;
-  transition: color 0.2s;
-  position: relative;
+  font-weight: 500;
+  transition: color 0.3s;
+  position: relative; /* Added for ::after positioning */
+  font-size: clamp(0.85rem, 1.2vw, 1rem);
+  white-space: nowrap;
 }
 
 .header-nav a:hover {
-  color: #3a6ecf;
+  color: #f84e30;
 }
 
 .header-nav a:after {
@@ -66,13 +78,14 @@
 
 .cart-link {
   position: relative;
-  display: inline-block;
   cursor: pointer;
 }
 
 .cart-link svg {
   color: #000;
   transition: color 0.2s;
+  width: clamp(20px, 5vw, 24px);
+  height: clamp(20px, 5vw, 24px);
 }
 
 .cart-link:hover svg {
@@ -81,18 +94,137 @@
 
 .cart-count {
   position: absolute;
-  top: -10px;
-  right: -10px;
+  top: -8px;
+  right: -8px;
   background-color: #f84e30;
   color: white;
   border-radius: 50%;
-  padding: 2px;
-  font-size: 11px;
-  min-width: 18px;
-  height: 18px;
+  width: clamp(16px, 4vw, 20px);
+  height: clamp(16px, 4vw, 20px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #000;
-  z-index: 5;
+  font-size: clamp(10px, 2.5vw, 12px);
+  font-weight: 700;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 2vw, 15px);
+}
+
+/* Mobile menu button - initially hidden */
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.mobile-menu-button svg {
+  width: 24px;
+  height: 24px;
+  color: #000;
+}
+
+/* Language switcher positioning */
+.mobile-language-switcher {
+  display: none;
+  margin-bottom: 15px;
+  padding: 5px 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.desktop-language-switcher {
+  display: block;
+}
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .header-logo img {
+    max-width: clamp(80px, 25vw, 120px);
+  }
+  
+  .mobile-menu-button {
+    display: block;
+    order: 3;
+  }
+  
+  .header-actions {
+    order: 2;
+  }
+  
+  .desktop-language-switcher {
+    display: none;
+  }
+  
+  .mobile-language-switcher {
+    display: block;
+  }
+  
+  .header-nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 70%;
+    max-width: 300px;
+    height: 100vh;
+    background-color: white;
+    flex-direction: column;
+    padding: 80px 20px 20px;
+    gap: 20px;
+    z-index: 999;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    transition: left 0.3s ease;
+    margin: 0;
+  }
+  
+  .header-nav.active {
+    left: 0;
+  }
+  
+  .header-nav a {
+    font-size: 1.1rem;
+    padding: 10px 0;
+  }
+  
+  .header-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .header-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* Super small screens */
+@media (max-width: 375px) {
+  .header-wrapper {
+    padding: 8px 0;
+  }
+  
+  .header-logo img {
+    max-width: 70px;
+  }
+  
+  .cart-link svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .header-actions {
+    gap: 8px;
+  }
 }
