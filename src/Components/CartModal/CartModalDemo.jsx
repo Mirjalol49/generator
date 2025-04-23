@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CartModal from './CartModal';
-import heroImage from '../../assets/Images/product1.png';
+import heroImage from '../../assets/images/product1.png';
 
 const CartModalDemo = () => {
   const [showModal, setShowModal] = useState(false);

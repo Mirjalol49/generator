@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext'
 import { useLanguage } from '../../context/LanguageContext'
 import CartSidebar from '../../Components/CartSidebar/CartSidebar'
 import LanguageSwitcher from '../../Components/LanguageSwitcher/LanguageSwitcher'
+import logo from '../../assets/images/logo.png'
 import './Header.css'
 
 const Header = () => {
@@ -58,7 +59,7 @@ const Header = () => {
       <div className="container">
         <div className="header-wrapper">
           <Link className='header-logo' to="/">
-            <img src="/src/assets/images/logo.png" alt="Logotip" />
+            <img src={logo} alt="Logotip" />
           </Link>
           
           {/* Mobile menu overlay */}

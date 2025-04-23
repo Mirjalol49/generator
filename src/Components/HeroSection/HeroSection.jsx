@@ -3,7 +3,7 @@ import './HeroSection.css'
 import { useLanguage } from '../../context/LanguageContext'
 
 // Import the image directly with correct case
-import heroImage from '../../assets/Images/product1.png'
+import heroImage from '../../assets/images/product1.png'
 
 const HeroSection = memo(() => {
   const { translate } = useLanguage();

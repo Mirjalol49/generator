@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './CartModal.css';
 import { useLanguage } from '../../context/LanguageContext';
+import placeholderImage from '../../assets/images/placeholder-image.jpg';
 
 const CartModal = ({ isOpen, onClose, product, quantity = 1, onQuantityChange, onViewCart }) => {
   const { translate } = useLanguage();
@@ -76,7 +77,7 @@ const CartModal = ({ isOpen, onClose, product, quantity = 1, onQuantityChange, o
             alt={product.name} 
             className="cart-product-image"
             onError={(e) => {
-              e.target.src = '/placeholder-image.jpg';
+              e.target.src = placeholderImage;
             }}
           />
           <div className="cart-product-details">
